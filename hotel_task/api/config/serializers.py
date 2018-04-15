@@ -7,7 +7,7 @@ from hotel_task.models import Config
 
 class ConfigSerializer(serializers.Serializer):
     parameter = serializers.CharField(read_only=True)
-    value = serializers.CharField()
+    value = serializers.CharField(help_text="Value of parameter")
 
     def __init__(self, *args, **kwargs):
         self.parameter = kwargs.pop('parameter', None)
