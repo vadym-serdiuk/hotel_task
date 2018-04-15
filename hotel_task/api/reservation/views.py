@@ -10,7 +10,7 @@ class ReservationViewSet(ViewSetMixin, generics.CreateAPIView):
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         """
         Add new reservation.
         Returns 400 error if reservation is not possible for the date range
