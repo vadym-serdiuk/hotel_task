@@ -28,15 +28,12 @@ class ConfigViewSet(viewsets.ModelViewSet):
     lookup_url_kwarg = 'parameter'
     http_method_names = ('get', 'put', 'options')
 
-    def options(self, request, *args, **kwars):
-        list_parameters = [{'name': name, 'type': type_}
-                           for name, (type_, _, _) in Config.PARAMETERS.items()]
-        return Response({'parameters': list_parameters})
-
     def list(self, request, *args, **kwargs):
         parameters = []
-        for name in Config.PARAMETERS:
-            parameters.append(self.serializer_class(self.get_object(name)).data)
+        for name, (type_, _, _) in Config.PARAMETERS.items():
+            obj = self.serializer_class(self.get_object(name)).data
+            obj['type'] = type_
+            parameters.append(obj)
         return Response(parameters)
 
     def retrieve(self, request, *args, **kwargs):
