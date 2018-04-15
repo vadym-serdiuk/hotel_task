@@ -27,6 +27,8 @@ def reservations(guest):
         guest, _ = Guest.objects.get_or_create(name=name, email=email)
         Reservation.create_reservation(
             guest,
-            datetime.datetime(*date_start),
-            datetime.datetime(*date_end),
+            datetime.date(*date_start),
+            datetime.date(*date_end),
         )
+
+    return reservations

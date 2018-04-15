@@ -6,7 +6,7 @@ from hotel_task.api.reservation.serializers import ReservationSerializer
 from hotel_task.models import Guest, Reservation
 
 
-class ReservationViewSet(ViewSetMixin, generics.CreateAPIView):
+class ReservationViewSet(ViewSetMixin, generics.ListCreateAPIView):
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
 
@@ -23,6 +23,13 @@ class ReservationViewSet(ViewSetMixin, generics.CreateAPIView):
         guest = data.pop('guest')
         guest, _ = Guest.objects.get_or_create(**guest)
 
-        Reservation.create_reservation(guest, **data)
+        reservation = Reservation.create_reservation(guest, **data)
+        serializer = self.serializer_class(instance=reservation)
 
         return Response(serializer.data, 201)
+
+    def list(self, request, *args, **kwargs):
+        """
+        Get list of reservations
+        """
+        return super().list(request, *args, **kwargs)

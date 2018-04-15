@@ -8,6 +8,7 @@ class GuestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guest
         fields = ('name', 'email')
+        validators = []
 
 
 class ReservationSerializer(serializers.Serializer):

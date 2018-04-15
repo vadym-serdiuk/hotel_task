@@ -23,20 +23,35 @@ class Reservation(models.Model):
     """
     Model is used to store guests' reservations
     """
-    date = models.DateField()
-    guest = models.ForeignKey(Guest, on_delete=models.CASCADE)
+    date_start = models.DateField()
+    date_end = models.DateField()
+    guest = models.ForeignKey(Guest, on_delete=models.PROTECT)
 
     def __str__(self):
-        return 'Guest: {}, date: {}'.format(self.guest, self.date)
+        return 'Guest: {}, dates: {}-'.format(self.guest, self.date_start, self.date_end)
 
-    @staticmethod
-    def create_reservation(guest, date_start, date_end):
-        dates = Reservation.get_dates_by_range(date_start, date_end)
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        super().save(force_insert=False, force_update=False, using=None,
+                     update_fields=None)
+
+        # Add calendar records
+        dates = Reservation.get_dates_by_range(self.date_start, self.date_end)
         for date in dates:
-            Reservation.objects.create(date=date, guest=guest)
+            ReservationDates.objects.create(reservation_id=self.pk, date=date)
 
     @staticmethod
-    def get_dates_by_range(date_start, date_end):
+    def create_reservation(guest: Guest, date_start: datetime.date, date_end: datetime.date):
+        return Reservation.objects.create(guest=guest, date_start=date_start, date_end=date_end)
+
+    @staticmethod
+    def get_dates_by_range(date_start: datetime.date, date_end: datetime.date) -> list:
+        """
+        Transforms date range to the list of dates
+        :param date_start:
+        :param date_end:
+        :return: list
+        """
         date = date_start
         dates = []
         while date < date_end:
@@ -45,18 +60,34 @@ class Reservation(models.Model):
         return dates
 
     @staticmethod
-    def get_max_guests_for_dates(date_start, date_end):
+    def get_max_guests_for_dates(date_start: datetime.date, date_end: datetime.date) -> int:
+        """
+        Calculates max booked rooms in the range of dates
+        :param date_start:
+        :param date_end:
+        :return: int
+        """
+
         # we need not check the day of checkout
         date_end += datetime.timedelta(days=-1)
+
         reservations = (
-            Reservation.objects
+            ReservationDates.objects
             .filter(date__range=(date_start, date_end))
             .values('date')
-            .annotate(guests_number=Count('guest'))
+            .annotate(guests_number=Count('reservation'))
             .aggregate(max_guests_number=Max('guests_number'))
         )
 
         return reservations['max_guests_number'] or 0
+
+
+class ReservationDates(models.Model):
+    """
+    Model to store reservation as expanded date range
+    """
+    reservation = models.ForeignKey(Reservation, on_delete=models.CASCADE)
+    date = models.DateField()
 
 
 class Config(models.Model):
