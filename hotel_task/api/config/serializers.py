@@ -5,16 +5,19 @@ from rest_framework.exceptions import APIException
 from hotel_task.models import Config
 
 
-class ConfigSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Config
-        fields = ('parameter', 'value')
+class ConfigSerializer(serializers.Serializer):
+    parameter = serializers.CharField(read_only=True)
+    value = serializers.CharField()
+
+    def __init__(self, *args, **kwargs):
+        self.parameter = kwargs.pop('parameter', None)
+        super().__init__(*args, **kwargs)
 
     def validate(self, attrs):
-        parameter = attrs.get('parameter', '')
         value = attrs.get('value', '')
+        assert self.parameter is not None
 
-        parameter_options = Config.PARAMETERS.get(parameter)
+        parameter_options = Config.PARAMETERS.get(self.parameter)
         if parameter_options is None:
             raise Http404()
 
@@ -24,4 +27,5 @@ class ConfigSerializer(serializers.ModelSerializer):
         except ValueError:
             raise APIException(f'Wrong value. Type of value should be <{type_}>', 400)
 
+        attrs['parameter'] = self.parameter
         return attrs

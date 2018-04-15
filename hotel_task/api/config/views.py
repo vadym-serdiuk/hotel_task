@@ -45,10 +45,12 @@ class ConfigViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         param_name = self.kwargs[self.lookup_url_kwarg]
         if param_name in Config.PARAMETERS:
-            serializer = self.get_serializer(data=request.data)
+            serializer = self.get_serializer(parameter=param_name, data=request.data)
             serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
-            return Response(serializer.data)
+
+            Config.objects.create(**serializer.validated_data)
+
+            return Response(self.serializer_class(self.get_object()).data)
         else:
             raise Http404()
 

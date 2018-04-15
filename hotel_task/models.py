@@ -77,7 +77,7 @@ class Config(models.Model):
 
 
     class Meta:
-        get_latest_by = 'date'
+        get_latest_by = ('date', 'id')
 
 
 def load_initial_parameters(*args, **kwargs):

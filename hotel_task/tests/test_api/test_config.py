@@ -28,17 +28,17 @@ class TestConfigAPI:
 
     def test_put(self):
         factory = APIClient()
+        new_value = '10'
         data = {
-            'parameter': self.parameter,
-            'value': '10'
+            'value': new_value
         }
         response = factory.put(self.detail_path.format(
             parameter=self.parameter), data=data, format='json'
         )
         assert response.status_code == 200
-        response = factory.get(self.detail_path.format(parameter=self.parameter))
-        assert response.status_code == 200
+
+        data = response.json()
         assert isinstance(data, dict)
         assert 'parameter' in data
         assert 'value' in data
-        assert data['value'] == '10'
+        assert data['value'] == new_value
