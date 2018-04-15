@@ -5,15 +5,16 @@ from hotel_task.models import Guest, Reservation, Config
 
 
 class GuestSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(help_text='Name')
     class Meta:
         model = Guest
         fields = ('name', 'email')
 
 
 class ReservationSerializer(serializers.Serializer):
-    guest = GuestSerializer()
-    date_start = serializers.DateField()
-    date_end = serializers.DateField()
+    guest = GuestSerializer(help_text='''Guest json object as {"name": '', "email": ''}''')
+    date_start = serializers.DateField(help_text="Date of arrival")
+    date_end = serializers.DateField(help_text='Date of departure')
 
     def validate(self, attrs):
 
