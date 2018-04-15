@@ -5,10 +5,15 @@ API allows to make reservations with overbooking for guests of hotel
 ## Concept 
 
 The API is created with Django REST Framework - add-on for Django framework.
+
 Database - Postgres
 
 Project uses Docker and Docker compose and can be run 
 in local developer's environment and remote hosting as well.
+
+You need not install and configure postgres as it is part of Docker-compose environment
+
+Authentication is not required in this project.
 
 ## Endpoints
 
@@ -50,6 +55,8 @@ $ make tests
 ### Accessing to API documentation
 
 Type in the browser http://127.0.0.1:8000/docs/ to see the API endpoints
+
+The another UI for the API can be accessed at address http://127.0.0.1:8000/ 
 
 ### Changing the port
 
