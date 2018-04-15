@@ -41,6 +41,18 @@ Now you can run the project. Use command:
 
 $ make run
 
+### Running tests
+
+To run tests, use command:
+
+$ make tests
+
 ### Accessing to API documentation
 
-Type in the browser http://127.0.0.1/docs/ to see the API endpoints
+Type in the browser http://127.0.0.1:8000/docs/ to see the API endpoints
+
+### Changing the port
+
+By default the project occupies port 8000. But if you have a reason to use another port, you can change it in the docker-compose.yaml file.
+
+There is section 'ports' of 'web' service. Change the first number in this section (for example, 8001:8000)

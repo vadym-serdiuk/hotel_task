@@ -7,3 +7,5 @@ initdb:
 create-user:
 	docker-compose -f docker-compose.yaml run web scripts/create_super_user.sh || /bin/true
 
+tests:
+	docker-compose -f docker-compose.yaml run web scripts/tests.sh
