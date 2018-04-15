@@ -57,8 +57,8 @@ class Config(models.Model):
     Model is used to store history of parameter values
     """
     PARAMETERS = {
-        'overbooking': ('int', int, 100),
-        'room_numbers': ('int', int, 3),
+        'overbooking': ('int', int, 0),
+        'rooms_number': ('int', int, 3),
     }
 
     parameter = models.CharField(max_length=100)
