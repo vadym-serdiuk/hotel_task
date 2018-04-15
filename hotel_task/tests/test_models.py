@@ -11,7 +11,7 @@ def test_guest_model():
     name = 'Test guest'
     email = 'test@mail.com'
     Guest.objects.create(name=name, email=email)
-    guest  = Guest.objects.get(name=name)
+    guest = Guest.objects.get(name=name)
 
     assert guest.name == name
     assert guest.email == email
@@ -22,7 +22,7 @@ def test_reservation_model():
     name = 'Test guest'
     email = 'test@mail.com'
     Guest.objects.create(name=name, email=email)
-    guest  = Guest.objects.get(name=name)
+    guest = Guest.objects.get(name=name)
 
     date = datetime.datetime(2018, 9, 1)
     reservation = Reservation.objects.create(guest=guest, date=date)
@@ -57,7 +57,6 @@ def test_dates_by_range3():
     """
     Testing bad range: date_start > date_end
     """
-    format = '%Y-%m-%d'
     date_start = datetime.datetime(2018, 5, 1)
     date_end = datetime.datetime(2018, 4, 30)
     dates = Reservation.get_dates_by_range(date_start, date_end)

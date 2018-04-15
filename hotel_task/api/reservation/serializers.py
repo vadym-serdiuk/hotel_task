@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.exceptions import APIException, ValidationError
+from rest_framework.exceptions import ValidationError
 
 from hotel_task.models import Guest, Reservation, Config
 

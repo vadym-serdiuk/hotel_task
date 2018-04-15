@@ -5,3 +5,5 @@ coreapi
 ipython
 pytest
 pytest-django
+pytest-flakes
+pytest-pep8

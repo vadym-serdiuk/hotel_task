@@ -21,7 +21,7 @@ class ConfigSerializer(serializers.Serializer):
         if parameter_options is None:
             raise Http404()
 
-        type_, converter, _= parameter_options
+        type_, converter, _ = parameter_options
         try:
             converter(value)
         except ValueError:

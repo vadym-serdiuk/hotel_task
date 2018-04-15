@@ -75,7 +75,6 @@ class Config(models.Model):
         param_object = Config.objects.filter(parameter=name).only('value').latest()
         return converter(param_object.value)
 
-
     class Meta:
         get_latest_by = ('date', 'id')
 
