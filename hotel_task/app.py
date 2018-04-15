@@ -6,6 +6,7 @@ from django.dispatch import Signal
 class HotelTaskConfig(AppConfig):
 
     name = 'hotel_task'
+    verbose_name = 'Hotel'
 
     def ready(self):
         from hotel_task.models import load_initial_parameters

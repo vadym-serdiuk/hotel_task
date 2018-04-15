@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib import admin
 from django.db import models
 from django.db.models import Count, Max
 
@@ -11,6 +12,9 @@ class Guest(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
 
+    def __str__(self):
+        return '{} ({})'.format(self.name, self.email)
+
     class Meta:
         unique_together = ('name', 'email')
 
@@ -21,6 +25,9 @@ class Reservation(models.Model):
     """
     date = models.DateField()
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Guest: {}, date: {}'.format(self.guest, self.date)
 
     @staticmethod
     def create_reservation(guest, date_start, date_end):
@@ -65,6 +72,9 @@ class Config(models.Model):
     value = models.CharField(max_length=1000)
     date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return '{} at {}'.format(self.parameter, self.date)
+
     @classmethod
     def get_parameter_value(cls, name):
         assert name in cls.PARAMETERS
@@ -90,3 +100,8 @@ def load_initial_parameters(*args, **kwargs):
         if not Config.objects.filter(parameter=parameter).exists():
             Config.objects.create(parameter=parameter,
                                   value=default_value)
+
+
+admin.site.register(Guest)
+admin.site.register(Reservation)
+admin.site.register(Config)
