@@ -1,5 +1,5 @@
 run: initdb
-	docker-compose -f docker-compose.yaml up
+	docker-compose -f docker-compose.yaml up --build
 
 initdb:
 	docker-compose -f docker-compose.yaml run web scripts/initdb.sh || /bin/true
