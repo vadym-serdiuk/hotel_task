@@ -19,13 +19,14 @@ from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 
 from hotel_task.api.config.views import ConfigViewSet
+from hotel_task.api.reservation.views import reservation
 
 router = routers.DefaultRouter()
 router.register(r'config', ConfigViewSet)
-# router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('reservation/', reservation),
     path('docs/', include_docs_urls(title='My API title', public=True)),
     path('api-auth/', include('rest_framework.urls'))
 ]
