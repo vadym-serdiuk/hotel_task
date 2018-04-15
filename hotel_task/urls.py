@@ -14,9 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 
+from hotel_task.api.config.views import ConfigViewSet
+
+router = routers.DefaultRouter()
+router.register(r'config', ConfigViewSet)
+# router.register(r'groups', views.GroupViewSet)
+
 urlpatterns = [
-    path('docs/', include_docs_urls(title='My API title'))
+    path('', include(router.urls)),
+    path('docs/', include_docs_urls(title='My API title', public=True)),
+    path('api-auth/', include('rest_framework.urls'))
 ]
