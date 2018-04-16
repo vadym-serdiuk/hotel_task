@@ -24,7 +24,7 @@ class TestConfigAPI:
         assert isinstance(data, dict)
         assert 'parameter' in data
         assert 'value' in data
-        assert data['value'] == '0'
+        assert '0' == data['value']
 
     def test_put(self):
         factory = APIClient()
@@ -41,4 +41,4 @@ class TestConfigAPI:
         assert isinstance(data, dict)
         assert 'parameter' in data
         assert 'value' in data
-        assert data['value'] == new_value
+        assert new_value == data['value']
