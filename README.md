@@ -6,10 +6,10 @@ API allows to make reservations with overbooking for guests of hotel
 
 The API is created with Django REST Framework - add-on for Django framework.
 
-Database - Postgres
+Database - Postgres. I choose it because it is the best of the free Open Source multi-platform SQL databases. Django supports it in the ORM on a good level. Amazon has special service to store and scale databases in Postgres. It can be used for small projects as well as for quite big projects, required replication and sharding.
 
-Project uses Docker and Docker compose and can be run 
-in local developer's environment and remote hosting as well.
+Project uses Docker and Docker-compose and can be run 
+in local developer's environment and any remote hosting as well.
 
 You need not install and configure postgres as it is part of Docker-compose environment
 
@@ -34,7 +34,7 @@ System checks the possibility of reservation for the specified range of days, an
 You need Docker, docker-compose and make utility installed on your computer.
 For running initial database creation, use command:
 
-$ make init
+$ make initdb
 
 Than you need to create super-user for accessing administration panel:
 
